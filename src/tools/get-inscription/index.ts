@@ -8,22 +8,23 @@ export const inputSchema = {
     properties: {
         id: {
             type: "string",
-            description: "The CDLI artifact ID (e.g. P315278)"
+            description: "The CDLI artifact ID — accepts both prefixed (e.g. P315278) and numeric-only (e.g. 315278) formats"
         }
     },
     required: ["id"]
 };
 
 export const handler = async (args: { id: string }) => {
-    const id = args.id;
+    // Normalize: strip leading letter prefix (e.g. "P315278" -> "315278")
+    const numericId = args.id.replace(/^[A-Za-z]+/, "");
     try {
         const response = await fetch(
-            `https://cdli.mpiwg-berlin.mpg.de/artifacts/${id}/inscription`,
+            `https://cdli.mpiwg-berlin.mpg.de/artifacts/${numericId}/inscription`,
             { headers: { Accept: "application/json", "User-Agent": "cdli-mcp-server/1.0.0" } }
         );
         if (!response.ok) {
             return {
-                content: [{ type: "text", text: `Inscription for artifact ${id} not found or API error (status ${response.status}).` }],
+                content: [{ type: "text", text: `Inscription for artifact ${numericId} not found or API error (status ${response.status}).` }],
                 isError: true
             };
         }

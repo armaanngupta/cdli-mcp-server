@@ -26,8 +26,6 @@ cdli-mcp-server/
 │       │   └── index.ts      # List publications
 │       ├── get-provenience/
 │       │   └── index.ts      # List proveniences (find sites)
-│       ├── get-inscription/
-│       │   └── index.ts      # Fetch artifact transliteration
 │       └── ping/
 │           └── index.ts      # Liveness check
 ├── build/                    # Compiled JS output (git-ignored)
@@ -129,11 +127,13 @@ echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"search_art
 ### `get_artifact`
 Fetches the full metadata record for a specific CDLI artifact by its ID.
 
+The response includes publications, materials, period, provenience, collections, and the **full ATF inscription/transliteration text** (in the `inscription.atf` field). There is no need for a separate inscription tool — all transliteration data is embedded in this response.
+
 | Parameter | Type   | Required | Description                      |
 |-----------|--------|----------|----------------------------------|
-| `id`      | string | ✅       | The CDLI artifact ID (e.g. `P315278`) |
+| `id`      | string | ✅       | The CDLI artifact ID — accepts both prefixed (`P315278`) and numeric-only (`315278`) formats |
 
-**Example prompt:** *"Get me the details of artifact P315278"*
+**Example prompt:** *"Get the full metadata and inscription text for artifact P315278"*
 
 ---
 
@@ -179,16 +179,6 @@ Returns a list of proveniences (archaeological find sites) registered in CDLI.
 
 ---
 
-### `get_inscription`
-Fetches the inscription (transliteration text) for a specific artifact.
-
-| Parameter | Type   | Required | Description                             |
-|-----------|--------|----------|-----------------------------------------|
-| `id`      | string | ✅       | The CDLI artifact ID (e.g. `P315278`)  |
-
-**Example prompt:** *"Get the inscription text for artifact P315278"*
-
----
 
 ### `ping`
 A simple liveness check to verify the server is running and reachable.

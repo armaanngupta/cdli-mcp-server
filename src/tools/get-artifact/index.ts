@@ -1,6 +1,6 @@
 export const name = "get_artifact";
 
-export const description = "Get metadata for a specific CDLI artifact by ID";
+export const description = "Get full metadata for a specific CDLI artifact by ID, including its publications, materials, period, provenience, collections, and the full ATF inscription/transliteration text (in the `inscription.atf` field).";
 
 export const inputSchema = {
     type: "object",
