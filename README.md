@@ -1,0 +1,173 @@
+# CDLI MCP Server
+
+A [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server that exposes [CDLI (Cuneiform Digital Library Initiative)](https://cdli.mpiwg-berlin.mpg.de/) data as structured tools for AI agents.
+
+This prototype connects directly to the CDLI public API and allows any MCP-compatible client (like Claude Desktop) to search artifacts, retrieve metadata, fetch authors, and more — without any custom integration work.
+
+> **Transport:** `stdio` (standard input/output)
+
+---
+
+## Project Structure
+
+```
+cdli-mcp-server/
+├── src/
+│   ├── index.ts              # MCP server entry point
+│   └── tools/
+│       ├── index.ts          # Barrel export of all tools
+│       ├── get-artifact/
+│       │   └── index.ts      # Fetch a single artifact by ID
+│       ├── get-authors/
+│       │   └── index.ts      # List CDLI authors
+│       ├── search-artifacts/
+│       │   └── index.ts      # Full-text artifact search
+│       └── ping/
+│           └── index.ts      # Liveness check
+├── build/                    # Compiled JS output (git-ignored)
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) v18 or higher
+- npm
+
+---
+
+## Setup
+
+```bash
+# 1. Clone the repository
+git clone <your-repo-url>
+cd cdli-mcp-server
+
+# 2. Install dependencies
+npm install
+
+# 3. Build the TypeScript source
+npm run build
+```
+
+To rebuild and run in one step during development:
+```bash
+npm run dev
+```
+
+---
+
+## Testing the Server
+
+### Option 1: MCP Inspector (Recommended)
+
+The official MCP Inspector gives you a browser UI to list and call tools interactively:
+
+```bash
+npx @modelcontextprotocol/inspector node build/index.js
+```
+
+Then open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Option 2: Raw JSON-RPC via stdin
+
+Since the server uses stdio transport, you can pipe raw JSON-RPC messages directly:
+
+**List all available tools:**
+```bash
+echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | node build/index.js
+```
+
+**Call `get_artifact` with artifact ID `P315278`:**
+```bash
+echo '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"get_artifact","arguments":{"id":"P315278"}}}' | node build/index.js
+```
+
+**Call `search_artifacts`:**
+```bash
+echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"search_artifacts","arguments":{"query":"Ur III tablet"}}}' | node build/index.js
+```
+
+---
+
+## Connecting to Claude Desktop
+
+1. Build the server first: `npm run build`
+
+2. Find your Claude Desktop config file:
+   - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+   - **Linux:** `~/.config/Claude/claude_desktop_config.json`
+
+3. Add the following entry (use the absolute path to your `build/index.js`):
+
+```json
+{
+  "mcpServers": {
+    "cdli": {
+      "command": "node",
+      "args": ["/home/armaanngupta/zeesoc/cdli-mcp-server/build/index.js"]
+    }
+  }
+}
+```
+
+4. Restart Claude Desktop. You will now see the CDLI tools available in your conversation.
+
+---
+
+## Available Tools
+
+### `get_artifact`
+Fetches the full metadata record for a specific CDLI artifact by its ID.
+
+| Parameter | Type   | Required | Description                      |
+|-----------|--------|----------|----------------------------------|
+| `id`      | string | ✅       | The CDLI artifact ID (e.g. `P315278`) |
+
+**Example prompt:** *"Get me the details of artifact P315278"*
+
+---
+
+### `search_artifacts`
+Performs a full-text search across the CDLI artifact catalog.
+
+| Parameter | Type   | Required | Description              |
+|-----------|--------|----------|--------------------------|
+| `query`   | string | ✅       | The search term or phrase |
+
+**Example prompt:** *"Search CDLI for tablets from the Ur III period"*
+
+---
+
+### `get_authors`
+Returns a list of authors registered in the CDLI database (up to 20).
+
+*No parameters required.*
+
+**Example prompt:** *"List the authors in the CDLI database"*
+
+---
+
+### `ping`
+A simple liveness check to verify the server is running and reachable.
+
+*No parameters required.*
+
+**Example prompt:** *"Ping the CDLI server"*
+
+---
+
+## Development Notes
+
+- All tools are defined in `src/tools/<tool-name>/index.ts` and must export `name`, `description`, `inputSchema`, and `handler`.
+- To add a new tool: create a new folder under `src/tools/`, implement the exports, and register it in `src/tools/index.ts`.
+- This server currently targets the live CDLI API at `https://cdli.mpiwg-berlin.mpg.de`.
+
+---
+
+## License
+
+MIT
