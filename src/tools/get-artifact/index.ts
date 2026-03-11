@@ -10,15 +10,16 @@ export const inputSchema = {
     required: ["id"]
 };
 
-export const handler = async (args: any) => {
-    const id = args.id as string;
+export const handler = async (args: { id: string }) => {
+    // Normalize: strip leading letter prefix (e.g. "P234524" -> "234524")
+    const numericId = args.id.replace(/^[A-Za-z]+/, "");
     try {
-        const response = await fetch(`https://cdli.mpiwg-berlin.mpg.de/artifacts/${id}.json`, {
+        const response = await fetch(`https://cdli.mpiwg-berlin.mpg.de/artifacts/${numericId}.json`, {
             headers: { 'Accept': 'application/json', 'User-Agent': 'cdli-mcp-prototype/1.0.0' }
         });
         if (!response.ok) {
             return {
-                content: [{ type: "text", text: `Artifact ${id} not found or API error.` }],
+                content: [{ type: "text", text: `Artifact ${numericId} not found or API error.` }],
                 isError: true,
             };
         }
