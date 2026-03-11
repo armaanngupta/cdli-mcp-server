@@ -67,13 +67,41 @@ npm run dev
 
 ### Option 1: MCP Inspector (Recommended)
 
-The official MCP Inspector gives you a browser UI to list and call tools interactively:
+The official MCP Inspector gives you a browser UI to list and call tools interactively.
 
+**Step 1:** Build the server first (must be done every time you change source files):
+```bash
+npm run build
+```
+
+**Step 2:** Launch the inspector with the compiled server:
 ```bash
 npx @modelcontextprotocol/inspector node build/index.js
 ```
 
-Then open [http://localhost:5173](http://localhost:5173) in your browser.
+> ⚠️ **Do NOT use `npm run dev` as the inspector command.** The `dev` script prints build output to stdout, which corrupts the JSON-RPC stream and causes `SyntaxError: Unexpected token '>'` errors.
+
+**Step 3:** The inspector will print a URL like:
+```
+🚀 MCP Inspector is up and running at:
+   http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=<your-token>
+```
+
+**Step 4:** Open that **full URL** (including the token query parameter) in your browser. On WSL/Linux the browser won't auto-open, so copy-paste it manually.
+
+> 💡 **Tip:** To skip the auth token entirely for local development, use:
+> ```bash
+> DANGEROUSLY_OMIT_AUTH=true npx @modelcontextprotocol/inspector node build/index.js
+> ```
+> Then navigate to `http://localhost:6274` without any token.
+
+**Step 5:** In the inspector UI:
+- Set **Transport** to `STDIO`
+- Set **Command** to `node`
+- Set **Args** to `build/index.js`
+- Click **Connect**
+
+You can now list all tools and call them with a form-based interface.
 
 ### Option 2: Raw JSON-RPC via stdin
 
@@ -112,7 +140,7 @@ echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"search_art
   "mcpServers": {
     "cdli": {
       "command": "node",
-      "args": ["/home/armaanngupta/zeesoc/cdli-mcp-server/build/index.js"]
+      "args": ["/PATH/TO/CLONED/REPO/cdli-mcp-server/build/index.js"]
     }
   }
 }
