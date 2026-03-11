@@ -22,6 +22,12 @@ cdli-mcp-server/
 │       │   └── index.ts      # List CDLI authors
 │       ├── search-artifacts/
 │       │   └── index.ts      # Full-text artifact search
+│       ├── get-publications/
+│       │   └── index.ts      # List publications
+│       ├── get-provenience/
+│       │   └── index.ts      # List proveniences (find sites)
+│       ├── get-inscription/
+│       │   └── index.ts      # Fetch artifact transliteration
 │       └── ping/
 │           └── index.ts      # Liveness check
 ├── build/                    # Compiled JS output (git-ignored)
@@ -148,6 +154,39 @@ Returns a list of authors registered in the CDLI database (up to 20).
 *No parameters required.*
 
 **Example prompt:** *"List the authors in the CDLI database"*
+
+---
+
+### `get_publications`
+Returns a list of publications from the CDLI database.
+
+| Parameter | Type   | Required | Description                                 |
+|-----------|--------|----------|---------------------------------------------|
+| `limit`   | number | ❌       | Number of results to return (default: 20)   |
+
+**Example prompt:** *"List publications from the CDLI database"*
+
+---
+
+### `get_provenience`
+Returns a list of proveniences (archaeological find sites) registered in CDLI.
+
+| Parameter | Type   | Required | Description                                 |
+|-----------|--------|----------|---------------------------------------------|
+| `limit`   | number | ❌       | Number of results to return (default: 20)   |
+
+**Example prompt:** *"What proveniences are recorded in CDLI?"*
+
+---
+
+### `get_inscription`
+Fetches the inscription (transliteration text) for a specific artifact.
+
+| Parameter | Type   | Required | Description                             |
+|-----------|--------|----------|-----------------------------------------|
+| `id`      | string | ✅       | The CDLI artifact ID (e.g. `P315278`)  |
+
+**Example prompt:** *"Get the inscription text for artifact P315278"*
 
 ---
 
