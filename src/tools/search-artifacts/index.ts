@@ -13,7 +13,7 @@ export const inputSchema = {
 export const handler = async (args: any) => {
     const query = args.query as string;
     try {
-        const response = await fetch(`https://cdli.mpiwg-berlin.mpg.de/search.json?query=${encodeURIComponent(query)}&limit=10`, {
+        const response = await fetch(`https://cdli.earth/search.json?query=${encodeURIComponent(query)}&limit=10`, {
             headers: { 'Accept': 'application/json', 'User-Agent': 'cdli-mcp-prototype/1.0.0' }
         });
         if (!response.ok) {

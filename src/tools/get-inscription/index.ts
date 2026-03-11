@@ -19,7 +19,7 @@ export const handler = async (args: { id: string }) => {
     const numericId = args.id.replace(/^[A-Za-z]+/, "");
     try {
         const response = await fetch(
-            `https://cdli.mpiwg-berlin.mpg.de/artifacts/${numericId}/inscription`,
+            `https://cdli.earth/artifacts/${numericId}/inscription`,
             { headers: { Accept: "application/json", "User-Agent": "cdli-mcp-server/1.0.0" } }
         );
         if (!response.ok) {

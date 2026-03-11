@@ -14,7 +14,7 @@ export const handler = async (args: { id: string }) => {
     // Normalize: strip leading letter prefix (e.g. "P234524" -> "234524")
     const numericId = args.id.replace(/^[A-Za-z]+/, "");
     try {
-        const response = await fetch(`https://cdli.mpiwg-berlin.mpg.de/artifacts/${numericId}.json`, {
+        const response = await fetch(`https://cdli.earth/artifacts/${numericId}.json`, {
             headers: { 'Accept': 'application/json', 'User-Agent': 'cdli-mcp-prototype/1.0.0' }
         });
         if (!response.ok) {

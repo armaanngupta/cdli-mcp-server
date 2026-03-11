@@ -18,7 +18,7 @@ export const handler = async (args: { limit?: number }) => {
     const limit = args.limit ?? 20;
     try {
         const response = await fetch(
-            `https://cdli.mpiwg-berlin.mpg.de/publications.json?limit=${limit}`,
+            `https://cdli.earth/publications.json?limit=${limit}`,
             { headers: { Accept: "application/json", "User-Agent": "cdli-mcp-server/1.0.0" } }
         );
         if (!response.ok) {

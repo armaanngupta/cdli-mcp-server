@@ -221,7 +221,16 @@ A simple liveness check to verify the server is running and reachable.
 
 - All tools are defined in `src/tools/<tool-name>/index.ts` and must export `name`, `description`, `inputSchema`, and `handler`.
 - To add a new tool: create a new folder under `src/tools/`, implement the exports, and register it in `src/tools/index.ts`.
-- This server currently targets the live CDLI API at `https://cdli.mpiwg-berlin.mpg.de`.
+- This server currently targets the live CDLI API at `https://cdli.earth`.
+
+---
+
+## References
+
+- [mcp-open-library](https://github.com/8enSmith/mcp-open-library) — Reference implementation for structuring an MCP server project
+- [Introduction to Model Context Protocol](https://anthropic.skilljar.com/introduction-to-model-context-protocol) — Anthropic's official MCP introduction course
+- [MCP Build a Server Guide](https://modelcontextprotocol.io/docs/develop/build-server) — Official documentation for building MCP servers
+- [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) — The TypeScript SDK used to build this server
 
 ---
 

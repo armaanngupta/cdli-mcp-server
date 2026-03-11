@@ -9,7 +9,7 @@ export const inputSchema = {
 
 export const handler = async (args: any) => {
     try {
-        const response = await fetch('https://cdli.mpiwg-berlin.mpg.de/authors.json?limit=20', {
+        const response = await fetch('https://cdli.earth/authors.json?limit=20', {
             headers: { 'Accept': 'application/json', 'User-Agent': 'cdli-mcp-prototype/1.0.0' }
         });
         if (!response.ok) {
