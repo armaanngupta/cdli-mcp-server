@@ -1,0 +1,250 @@
+Here are the guidelines for CDLI MCP agent and MCP server project:
+
+1. The search should be on the webpage https://cdli.earth/ below “Corpus Search” as ” AI search”
+
+2. It should open a seperate webpage of the client which will have different llm providers integrated with chat agent and agentic toolkit. Users can bring and add their own keys.
+
+3. It allows search over all fields - https://cdli.earth/search/advanced as per the page and linking it back to artifacts as citations like https://cdli.earth/search?atf_translation_text=rain and https://cdli.earth/artifacts/254876
+
+4. Even Corpora search CQP to RDF needs to be made MCP server enabled - https://cdli.earth/cqp4rdf/ Check its documentation. It was old project by Saga Sehgal in GSoc
+
+5. Lastly, there can be an agent to help write research papers on CDLI artifacts with citations to the artifacts for a genre or language or period covering over atf_translation_text
+
+------------------------------------
+
+
+
+Product Program Specification
+CDLI AI Search and MCP Agent Platform
+Project Name: CDLI AI Research Interface
+Organization: Cuneiform Digital Library Initiative
+Primary Interface: https://cdli.earth
+Program Type: AI Research Infrastructure
+Core Technology: MCP Agents, LLMs, Semantic Search
+
+1. Executive Summary
+The CDLI AI Research Interface introduces an intelligent research layer over the CDLI corpus by integrating LLM-powered agents, Model Context Protocol (MCP) tools, and semantic corpus search capabilities.
+The platform will enable scholars to:
+Perform natural language queries over the CDLI corpus
+Access artifact-level citations automatically
+Execute advanced linguistic queries via CQP
+Generate research reports and literature summaries
+
+Integrate user-provided LLM APIs
+The system will connect existing CDLI infrastructure—including corpus search, advanced search, and the CQP-to-RDF system—through an MCP server that exposes CDLI as a programmable research environment.
+
+2. Program Objectives
+Primary Objectives
+Introduce AI Search within the CDLI interface.
+Provide a standalone AI research workspace for CDLI users.
+Enable agentic interaction with the CDLI corpus through MCP.
+Integrate CQP-to-RDF linguistic query system into the AI pipeline.
+
+Support automated research writing with artifact citations.
+Strategic Goals
+Make CDLI the first AI-native digital humanities archive.
+Improve accessibility of cuneiform data for researchers and students.
+Enable reproducible computational philology workflows.
+
+Foster an ecosystem of AI research tools for ancient text analysis.
+
+
+3. Target Users
+Primary Users
+
+Assyriologists
+Linguists
+Digital humanities researchers
+Archaeologists
+Graduate students studying ancient Near Eastern texts
+Secondary Users
+
+AI researchers studying ancient language data
+Data scientists working on historical corpora
+Educators using CDLI artifacts for teaching
+
+
+4. Product Scope
+The system consists of three primary components.
+Component 1 — AI Search Interface
+Embedded within the CDLI website.
+Features:
+
+Natural language search
+Query translation into CDLI parameters
+Artifact citation linking
+Structured metadata retrieval
+Example query:
+Find tablets mentioning rain in Old Babylonian textsResult:
+
+Artifact list
+translation snippets
+links to artifact pages
+Example citation:
+P254876 — Rain invocation ritual
+https://cdli.earth/artifacts/254876
+
+Component 2 — AI Research Workspace
+A standalone web application that provides an agentic research environment.
+Capabilities:
+
+Conversational research interface
+Artifact discovery
+Corpus exploration
+LLM-based summarization
+research drafting
+Users may configure their own LLM providers such as:
+
+OpenAI
+Anthropic
+Google
+Mistral AI
+Key design principle:
+Bring Your Own Model (BYOM).
+
+Component 3 — CDLI MCP Server
+The MCP server exposes CDLI capabilities as tools accessible to AI agents.
+Supported tool categories:
+ToolPurposeArtifact SearchQuery CDLI artifactsAdvanced Metadata SearchStructured search across corpus fieldsArtifact RetrievalRetrieve artifact metadataTranslation ExtractionExtract translation contentCQP QueryLinguistic corpus search
+5. Corpus Search Integration
+The AI system will support all fields currently available in CDLI Advanced Search.
+Source page:
+https://cdli.earth/search/advanced
+Key searchable fields include:
+
+language
+genre
+period
+provenience
+artifact type
+translation text
+museum collection
+publication reference
+Example AI translation:
+User query:
+Find Sumerian administrative tablets about barleyGenerated search parameters:
+language=Sumerian
+genre=administrative
+translation_text=barley
+
+6. CQP-to-RDF Integration
+CDLI includes an experimental corpus query system:
+https://cdli.earth/cqp4rdf/
+This tool maps Corpus Query Processor (CQP) syntax to RDF graph queries.
+The MCP server will expose this capability through an API tool.
+Example query:
+[lemma="rain"]Response:
+Artifact: P254876
+Line: Rain invocationThis enables deep linguistic exploration of the corpus.
+
+7. Research Paper Generation Agent
+An optional agent will assist scholars in producing literature-style research outputs.
+Capabilities:
+
+artifact aggregation
+translation summarization
+thematic clustering
+structured paper drafting
+Example prompt:
+Write a research overview of rain rituals in Old Babylonian textsGenerated sections:
+
+Abstract
+Introduction
+Corpus Overview
+Textual Evidence
+Discussion
+References
+Each reference includes artifact citations.
+
+8. System Architecture
+High-level architecture:
+CDLI Website
+      │
+AI Search Button
+      │
+      ▼
+AI Research Workspace
+      │
+      ▼
+LLM Agent Layer
+      │
+MCP Client
+      │
+      ▼
+CDLI MCP Server
+ ├── Artifact Search Tool
+ ├── Advanced Search Tool
+ ├── Artifact Retrieval Tool
+ ├── Translation Extraction Tool
+ └── CQP Query ToolThe MCP server communicates with:
+
+CDLI artifact database
+search endpoints
+RDF corpus query system
+
+
+9. Artifact Citation Standard
+All AI outputs must include direct artifact references.
+Citation format:
+[Artifact ID] – Title or description
+URLExample:
+P254876 — Rain invocation ritual
+https://cdli.earth/artifacts/254876This ensures scholarly traceability.
+
+10. Non-Functional Requirements
+Performance
+
+Search latency < 3 seconds
+Artifact retrieval < 2 seconds
+Scalability
+
+Support large corpus queries
+handle concurrent research sessions
+Reliability
+
+graceful fallback when AI fails
+deterministic artifact search
+Security
+
+API key encryption
+rate limiting
+safe prompt handling
+
+
+11. Risks and Challenges
+RiskMitigation Incorrect AI interpretations strict artifact citation requirement LLM hallucination retrieval-first architecture Large corpus queries caching and indexing Legacy CDLI systems wrapper APIs
+
+12. Success Metrics
+Success will be evaluated using:
+Usage Metrics
+
+AI search adoption rate
+number of research queries
+artifact retrieval volume
+Research Metrics
+
+citations of AI-assisted research
+academic user feedback
+corpus exploration depth
+
+
+13. Future Extensions
+Potential future capabilities include:
+
+artifact image interpretation
+transliteration analysis
+translation alignment
+historical knowledge graph
+Integration with other digital archives may include:
+
+Perseus Digital Library
+Open Richly Annotated Cuneiform Corpus
+
+
+14. Expected Impact
+The CDLI AI system will transform the way scholars interact with ancient texts by:
+enabling semantic exploration of cuneiform corpora
+reducing barriers to entry for new researchers
+
+facilitating computational philology research
+This platform positions CDLI as a leading example of AI-enhanced digital humanities infrastructure.

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>CDLI AI Research Interface — Sequence Diagram</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f6f8;
+      margin: 0;
+      padding: 32px;
+    }
+    h1 {
+      font-size: 17px;
+      color: #111827;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .subtitle {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 28px;
+    }
+    .diagram-wrap {
+      background: #ffffff;
+      border: 1px solid #e2e5ea;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      overflow-x: auto;
+    }
+    .mermaid {
+      font-family: 'Inter', sans-serif !important;
+    }
+  </style>
+</head>
+<body>
+
+<h1>CDLI AI Research Interface — Sequence Diagram</h1>
+<div class="subtitle">Illustrates the communication flow for an example user research query.</div>
+
+<div class="diagram-wrap">
+<div class="mermaid">
+sequenceDiagram
+    actor User
+    participant W as AI Research Workspace<br/>(Browser SPA)
+    participant L as LLM<br/>(OpenAI / Anthropic / Gemini)
+    participant M as CDLI MCP Server
+    participant T as Tool Handlers<br/>(search / artifact / cqp)
+    participant A as CDLI API<br/>(cdli.earth)
+
+    User->>W: "Find rain ritual tablets from Nippur"
+
+    W->>W: Load conversation history
+    W->>W: Format request<br/>(messages, available tools, system prompt)
+
+    W->>L: Send messages + tool list
+    L->>L: Analyse query
+    L->>L: Decide to call tool
+
+    L-->>W: Return tool call<br/>{ tool: "advanced_search",<br/>  args: { period: "Old Babylonian",<br/>  provenience: "Nippur",<br/>  translation_text: "rain" } }
+
+    W->>W: Parse tool call
+
+    W->>M: Call tool via HTTP/SSE MCP
+    M->>T: Route to advanced_search handler
+    T->>A: GET /search.json?period=Old+Babylonian<br/>&provenience=Nippur&translation_text=rain
+    A-->>T: Return matching artifact list
+
+    T-->>M: Format as citation list<br/>P254876 — Rain invocation ritual<br/>https://cdli.earth/artifacts/254876 ...
+    M-->>W: Return tool result
+
+    W->>L: Send follow-up with tool result
+    L->>L: Process artifact list
+    L->>L: Decide to call get_artifact<br/>for top result
+
+    L-->>W: Return tool call<br/>{ tool: "get_artifact", args: { id: "P254876" } }
+
+    W->>M: Call get_artifact via MCP
+    M->>T: Route to get_artifact handler
+    T->>A: GET /artifacts/254876.json
+    A-->>T: Return full metadata + ATF text
+    T-->>M: Format result with citation
+    M-->>W: Return tool result
+
+    W->>L: Send follow-up with artifact data
+    L->>L: Generate natural language response<br/>with citations and ATF excerpt
+
+    L-->>W: Stream final response (SSE tokens)
+
+    W->>W: Render response as markdown<br/>Display artifact citation cards
+    W->>W: Save to conversation history
+
+    W-->>User: Display response with inline<br/>artifact citation cards
+</div>
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#eef1fc',
+      primaryBorderColor: '#2c4ecf',
+      primaryTextColor: '#111827',
+      secondaryColor: '#fdf7e8',
+      secondaryBorderColor: '#c9a84c',
+      tertiaryColor: '#f0f2f5',
+      tertiaryBorderColor: '#9ca3af',
+      lineColor: '#6b7280',
+      textColor: '#111827',
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '13px',
+      actorBkg: '#2c4ecf',
+      actorTextColor: '#ffffff',
+      actorBorderColor: '#1e3aa8',
+      activationBkgColor: '#eef1fc',
+      activationBorderColor: '#2c4ecf',
+      sequenceNumberColor: '#ffffff',
+      loopTextColor: '#374151',
+      noteBkgColor: '#fef9c3',
+      noteTextColor: '#713f12',
+      noteBorderColor: '#f59e0b',
+    }
+  });
+</script>
+</body>
+</html>
