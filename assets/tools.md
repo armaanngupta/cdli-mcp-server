@@ -30,10 +30,18 @@ Make the base API URL configurable via an environment variable (e.g., `CDLI_API_
       },
       "id": {
         "type": "string",
-        "description": "The specific ID of the resource."
+        "description": "The specific ID of the resource. If omitted, returns a paginated list of resources."
+      },
+      "limit": {
+        "type": "number",
+        "description": "Number of resources to return if id is omitted (default: 20)."
+      },
+      "page": {
+        "type": "number",
+        "description": "Page number for pagination (default: 1)."
       }
     },
-    "required": ["resource", "id"]
+    "required": ["resource"]
   }
 }
 ```
@@ -127,6 +135,43 @@ Make the base API URL configurable via an environment variable (e.g., `CDLI_API_
       }
     },
     "required": ["id", "format"]
+  }
+}
+```
+
+## Tool 5: search_entity
+**Description:** Search across multiple CDLI non-artifact entities (authors, proveniences, languages, collections, materials, regions, periods, genres). This tool maps unified filters to CDLI parameters and normalizes the output.
+**API Mapping:** `GET /{entity_type}?{mapped_filters}`
+**Required Header:** `Accept: application/json`
+
+**Schema:**
+```json
+{
+  "name": "search_entity",
+  "description": "Search across multiple CDLI non-artifact entities (authors, proveniences, languages, collections, materials, regions, periods, genres). This tool maps unified filters to CDLI parameters and normalizes the output.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "entity_type": {
+        "type": "string",
+        "enum": ["authors", "proveniences", "languages", "collections", "materials", "regions", "periods", "genres"],
+        "description": "The type of entity to search for."
+      },
+      "filters": {
+        "type": "object",
+        "additionalProperties": { "type": "string" },
+        "description": "A key-value map of filters. Use 'name' for general text search. E.g., {'name': 'alexander'}. Other specific keys: 'orcid' (authors), 'region' (proveniences), 'parent' (languages)."
+      },
+      "limit": {
+        "type": "number",
+        "description": "Number of results to return (default: 20)."
+      },
+      "page": {
+        "type": "number",
+        "description": "Page number for pagination (default: 1)."
+      }
+    },
+    "required": ["entity_type", "filters"]
   }
 }
 ```

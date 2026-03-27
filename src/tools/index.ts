@@ -1,17 +1,19 @@
-import * as getArtifact from './get-artifact/index.js';
-import * as getAuthors from './get-authors/index.js';
 import * as advancedSearch from './advanced-search/index.js';
 import * as ping from './ping/index.js';
-import * as getPublications from './get-publications/index.js';
-import * as getProvenience from './get-provenience/index.js';
-import * as getTranslation from './get-translation/index.js';
+import * as groundTerm from './ground-term/index.js';
+import * as getCdliMetadata from './get-cdli-metadata/index.js';
+import * as getCdliLinkedData from './get-cdli-linked-data/index.js';
+import * as getCdliBibliography from './get-cdli-bibliography/index.js';
+import * as getCdliInscription from './get-cdli-inscription/index.js';
+import * as searchEntity from './search-entity/index.js';
 
 export const tools = [
-    getArtifact,
-    getAuthors,
     advancedSearch,
     ping,
-    getPublications,
-    getProvenience,
-    getTranslation,
+    groundTerm,
+    getCdliMetadata,
+    getCdliLinkedData,
+    getCdliBibliography,
+    getCdliInscription,
+    searchEntity,
 ];

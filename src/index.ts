@@ -40,7 +40,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         throw new Error(`Unknown tool: ${toolName}`);
     }
 
-    return await tool.handler(args);
+    return await tool.handler(args as any);
 });
 
 // 4. Connect Transport
