@@ -4,12 +4,23 @@ export const description = "Get a list of CDLI authors";
 
 export const inputSchema = {
     type: "object",
-    properties: {}
+    properties: {
+        limit: {
+            type: "number",
+            description: "Number of authors to return (default: 20)"
+        },
+        offset: {
+            type: "number",
+            description: "Number of authors to skip for pagination (default: 0)"
+        }
+    }
 };
 
-export const handler = async (args: any) => {
+export const handler = async (args: { limit?: number, offset?: number }) => {
+    const limit = args.limit ?? 20;
+    const offset = args.offset ?? 0;
     try {
-        const response = await fetch('https://cdli.earth/authors.json?limit=20', {
+        const response = await fetch(`https://cdli.earth/authors.json?limit=${limit}&offset=${offset}`, {
             headers: { 'Accept': 'application/json', 'User-Agent': 'cdli-mcp-prototype/1.0.0' }
         });
         if (!response.ok) {

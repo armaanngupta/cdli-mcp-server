@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>CDLI AI Research Interface — Interoperability</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f5f6f8; margin: 0; padding: 32px; }
+    h1 { font-size: 18px; color: #111827; margin-bottom: 6px; font-weight: 600; text-align: center; }
+    .subtitle { font-size: 13px; color: #6b7280; margin-bottom: 28px; text-align: center; }
+    .diagram-wrap { background: #ffffff; border: 1px solid #e2e5ea; border-radius: 12px; padding: 48px; box-shadow: 0 4px 16px rgba(0,0,0,.08); display: flex; justify-content: center; }
+  </style>
+</head>
+<body>
+
+<h1>The Interoperability "Hub"</h1>
+<div class="subtitle">Demonstrating how the Model Context Protocol makes CDLI a universal data source.</div>
+
+<div class="diagram-wrap">
+<div class="mermaid">
+flowchart TD
+    %% Define Styles
+    classDef center fill:#2c4ecf,stroke:#1e3aa8,stroke-width:2px,color:#ffffff,font-size:16px,font-weight:600
+    classDef cdli fill:#fdf7e8,stroke:#c9a84c,stroke-width:2px,color:#111827
+    classDef desktop fill:#eef1fc,stroke:#2c4ecf,stroke-width:2px,color:#111827
+    classDef custom fill:#f0f2f5,stroke:#9ca3af,stroke-width:2px,color:#111827
+    
+    %% Core Node
+    HUB(("CDLI MCP<br/>Server Endpoint<br/>(mcp.cdli.earth)")):::center
+    
+    %% Integrators
+    W["cdli.earth Website<br/>Embedded Research Widget"]:::cdli
+    C["Claude Desktop<br/>Anthropic App"]:::desktop
+    IDE["Cursor / Windsurf<br/>Local Dev Environments"]:::desktop
+    A["Custom AI Research Apps<br/>(Other Universities)"]:::custom
+    
+    %% Connections pulling from Hub
+    W -.->|HTTP/SSE| HUB
+    C -.->|stdio / SSE| HUB
+    IDE -.->|stdio| HUB
+    A -.->|HTTP/SSE| HUB
+</div>
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '14px',
+      lineColor: '#9ca3af',
+    }
+  });
+</script>
+</body>
+</html>

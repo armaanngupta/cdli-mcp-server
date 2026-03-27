@@ -20,8 +20,6 @@ cdli-mcp-server/
 │       │   └── index.ts      # Fetch a single artifact by ID
 │       ├── get-authors/
 │       │   └── index.ts      # List CDLI authors
-│       ├── search-artifacts/
-│       │   └── index.ts      # Full-text artifact search
 │       ├── get-publications/
 │       │   └── index.ts      # List publications
 │       ├── get-provenience/
@@ -117,11 +115,6 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | node build/i
 echo '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"get_artifact","arguments":{"id":"P315278"}}}' | node build/index.js
 ```
 
-**Call `search_artifacts`:**
-```bash
-echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"search_artifacts","arguments":{"query":"Ur III tablet"}}}' | node build/index.js
-```
-
 ---
 
 ## Connecting to Claude Desktop
@@ -164,15 +157,6 @@ The response includes publications, materials, period, provenience, collections,
 **Example prompt:** *"Get the full metadata and inscription text for artifact P315278"*
 
 ---
-
-### `search_artifacts`
-Performs a full-text search across the CDLI artifact catalog.
-
-| Parameter | Type   | Required | Description              |
-|-----------|--------|----------|--------------------------|
-| `query`   | string | ✅       | The search term or phrase |
-
-**Example prompt:** *"Search CDLI for tablets from the Ur III period"*
 
 ---
 

@@ -9,16 +9,21 @@ export const inputSchema = {
         limit: {
             type: "number",
             description: "Number of proveniences to return (default: 20)"
+        },
+        offset: {
+            type: "number",
+            description: "Number of proveniences to skip for pagination (default: 0)"
         }
     },
     required: []
 };
 
-export const handler = async (args: { limit?: number }) => {
+export const handler = async (args: { limit?: number, offset?: number }) => {
     const limit = args.limit ?? 20;
+    const offset = args.offset ?? 0;
     try {
         const response = await fetch(
-            `https://cdli.earth/proveniences.json?limit=${limit}`,
+            `https://cdli.earth/proveniences.json?limit=${limit}&offset=${offset}`,
             { headers: { Accept: "application/json", "User-Agent": "cdli-mcp-server/1.0.0" } }
         );
         if (!response.ok) {

@@ -1,4 +1,4 @@
-export const name = "get_inscription";
+export const name = "get_translation";
 
 export const description =
     "Get the inscription (transliteration text) for a specific CDLI artifact by its ID.";
