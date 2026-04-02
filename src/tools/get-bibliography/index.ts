@@ -1,37 +1,43 @@
-export const name = "get_inscription";
+export const name = "get_bibliography";
 export const description =
-    "Fetches the physical text or transliteration of a specific inscription.";
+    "Retrieves bibliography export data for artifacts or publications.";
 export const inputSchema = {
     type: "object",
     properties: {
+        resource: {
+            type: "string",
+            enum: ["artifacts", "publications"],
+            description: "The resource type to get citations for.",
+        },
         id: {
             type: "string",
-            description: "The ID of the inscription.",
+            description: "The specific ID of the artifact or publication.",
         },
         format: {
             type: "string",
-            enum: ["C-ATF", "CDLI-CoNLL", "CoNLL-U"],
-            description: "The format of the inscription text.",
+            enum: ["BibTeX", "CSL-JSON"],
+            description: "The requested bibliography format.",
         },
     },
-    required: ["id", "format"],
+    required: ["resource", "id", "format"],
 };
 
-export const handler = async (args: { id: string; format: string }) => {
+export const handler = async (args: {
+    resource: string;
+    id: string;
+    format: string;
+}) => {
     const baseUrl = process.env.CDLI_API_BASE_URL || "https://cdli.earth";
 
-    let acceptHeader = "text/plain";
-    if (args.format === "C-ATF") {
-        acceptHeader = "text/x-c-atf";
-    } else if (args.format === "CDLI-CoNLL") {
-        acceptHeader = "text/x-cdli-conll";
-    } else if (args.format === "CoNLL-U") {
-        acceptHeader = "text/x-conll-u";
+    let acceptHeader = "application/json";
+    if (args.format === "BibTeX") {
+        acceptHeader = "application/x-bibtex";
+    } else if (args.format === "CSL-JSON") {
+        acceptHeader = "application/vnd.citationstyles.csl+json";
     }
 
     try {
-        // Routing to /inscriptions/{id} as instructed for simplicity
-        const response = await fetch(`${baseUrl}/inscriptions/${args.id}`, {
+        const response = await fetch(`${baseUrl}/${args.resource}/${args.id}`, {
             headers: {
                 Accept: acceptHeader,
                 "User-Agent": "cdli-mcp-server/1.0.0",
@@ -56,7 +62,7 @@ export const handler = async (args: { id: string; format: string }) => {
                 content: [
                     {
                         type: "text",
-                        text: `API error fetching inscription: ${response.statusText}`,
+                        text: `API error fetching bibliography: ${response.statusText}`,
                     },
                 ],
                 isError: true,
@@ -70,7 +76,7 @@ export const handler = async (args: { id: string; format: string }) => {
             content: [
                 {
                     type: "text",
-                    text: `Error fetching inscription: ${e.message}`,
+                    text: `Error fetching bibliography: ${e.message}`,
                 },
             ],
             isError: true,

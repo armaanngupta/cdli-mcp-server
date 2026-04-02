@@ -1,39 +1,28 @@
-export const name = "get_inscription";
+export const name = "get_linked_data";
 export const description =
-    "Fetches the physical text or transliteration of a specific inscription.";
+    "Fetches Linked Open Data (JSON-LD) for CDLI catalog entities.";
 export const inputSchema = {
     type: "object",
     properties: {
+        resource: {
+            type: "string",
+            description:
+                "The linked data category. Supported paths: archives, artifacts, collections, dates, dynasties, genres, inscriptions, languages, materials, periods, proveniences, publications, regions, rulers.",
+        },
         id: {
             type: "string",
-            description: "The ID of the inscription.",
-        },
-        format: {
-            type: "string",
-            enum: ["C-ATF", "CDLI-CoNLL", "CoNLL-U"],
-            description: "The format of the inscription text.",
+            description: "The specific ID of the resource.",
         },
     },
-    required: ["id", "format"],
+    required: ["resource", "id"],
 };
 
-export const handler = async (args: { id: string; format: string }) => {
+export const handler = async (args: { resource: string; id: string }) => {
     const baseUrl = process.env.CDLI_API_BASE_URL || "https://cdli.earth";
-
-    let acceptHeader = "text/plain";
-    if (args.format === "C-ATF") {
-        acceptHeader = "text/x-c-atf";
-    } else if (args.format === "CDLI-CoNLL") {
-        acceptHeader = "text/x-cdli-conll";
-    } else if (args.format === "CoNLL-U") {
-        acceptHeader = "text/x-conll-u";
-    }
-
     try {
-        // Routing to /inscriptions/{id} as instructed for simplicity
-        const response = await fetch(`${baseUrl}/inscriptions/${args.id}`, {
+        const response = await fetch(`${baseUrl}/${args.resource}/${args.id}`, {
             headers: {
-                Accept: acceptHeader,
+                Accept: "application/ld+json",
                 "User-Agent": "cdli-mcp-server/1.0.0",
             },
         });
@@ -56,21 +45,22 @@ export const handler = async (args: { id: string; format: string }) => {
                 content: [
                     {
                         type: "text",
-                        text: `API error fetching inscription: ${response.statusText}`,
+                        text: `API error fetching linked data: ${response.statusText}`,
                     },
                 ],
                 isError: true,
             };
         }
-
-        const textData = await response.text();
-        return { content: [{ type: "text", text: textData }] };
+        const data = await response.json();
+        return {
+            content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+        };
     } catch (e: any) {
         return {
             content: [
                 {
                     type: "text",
-                    text: `Error fetching inscription: ${e.message}`,
+                    text: `Error fetching linked data: ${e.message}`,
                 },
             ],
             isError: true,

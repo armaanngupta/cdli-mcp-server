@@ -1,0 +1,68 @@
+{
+  "provenience": [
+    "Nippur",
+    "Lagash",
+    "Ur",
+    "Uruk",
+    "Eridu",
+    "Umma",
+    "Girsu",
+    "Shuruppak",
+    "Larsa",
+    "Babylon",
+    "Nineveh",
+    "Assur",
+    "Susa"
+  ],
+  "period": [
+    "Early Dynastic",
+    "Early Dynastic I-II",
+    "Early Dynastic IIIa",
+    "Early Dynastic IIIb",
+    "Old Akkadian",
+    "Lagash II",
+    "Ur III",
+    "Early Old Babylonian",
+    "Old Babylonian",
+    "Middle Babylonian",
+    "Middle Assyrian",
+    "Neo-Assyrian",
+    "Neo-Babylonian",
+    "Achaemenid",
+    "Hellenistic",
+    "Parthian"
+  ],
+  "collection": [
+    "British Museum",
+    "Louvre",
+    "Yale Babylonian Collection",
+    "Vorderasiatisches Museum",
+    "Penn Museum",
+    "Oriental Institute",
+    "Morgan Library",
+    "Ashmolean"
+  ],
+  "genre": [
+    "Administrative",
+    "Literary",
+    "Lexical",
+    "Royal Inscription",
+    "Legal",
+    "Letter",
+    "Mathematical",
+    "Medical/Incantation",
+    "Ritual",
+    "Omen",
+    "Myth"
+  ],
+  "language": [
+    "Sumerian",
+    "Akkadian",
+    "Hittite",
+    "Elamite",
+    "Hurrian",
+    "Ugaritic",
+    "Urartian",
+    "Eblaite"
+  ]
+}
