@@ -1,9 +1,0 @@
-- The structure of the docs looks more like a research paper than proposal, Please see old proposals.
-- I’m not going through this right now. Glad to know you’ve created a prototype, but I’ll barely have time to go through the code you’ve written here. better add a view explainer. (for the last part where i have mentioned the link for assets and prototype code)
-- talk less, show more (for the section 4.6 - ai search button)
-- this can be like a small support icon in the website? like a widget (see intercom widget) why full page? (for ai workspace agent)
-- After the proposal deadline, mentors usually don’t spend much time reading every proposal. They first spend about 5 minutes skimming each one, rank the top 5 proposals, and then spend more time reviewing those in detail. We already know the background of cdli, we need to know the project, what, why and how.
-- what are the plans to host this remotely? so they can add this where ever they want (for http/sse transport)
-- People already have Claude or other, they can add this mcp there, how? (again for the ai research workspace)
-- why do we need this MCP? impact? small details about mcp itself. (suggestions for addition)
-- What code/stack is this? define that first? (for the pseudocode part)

@@ -14,3 +14,7 @@ paper/output/
 **/__pycache__/
 *.pyc
 *.pyo
+
+.codex
+
+assets/

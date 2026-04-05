@@ -209,6 +209,30 @@ A simple liveness check to verify the server is running and reachable.
 
 ---
 
+## `/paper` Agent Runtime Notes
+
+The Python `/paper` workflow now retrieves CDLI data by calling this MCP server's tools over `stdio` (instead of calling CDLI REST endpoints directly).
+
+Before running the paper agent, build the MCP server:
+
+```bash
+npm run build
+```
+
+Then run paper from the repo root (or configure `PAPER_MCP_WORKDIR`):
+
+```bash
+python -m paper.run "grain storage in Ur III period"
+```
+
+Optional MCP runtime env vars for `/paper`:
+- `PAPER_MCP_COMMAND` (default: `node`)
+- `PAPER_MCP_ARGS` (default: `build/index.js`)
+- `PAPER_MCP_TIMEOUT_SEC` (default: `8`)
+- `PAPER_MCP_WORKDIR` (default: repo root)
+
+---
+
 ## References
 
 - [mcp-open-library](https://github.com/8enSmith/mcp-open-library) — Reference implementation for structuring an MCP server project

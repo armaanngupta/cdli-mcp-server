@@ -12,7 +12,6 @@ import asyncio
 import json
 import os
 
-import httpx
 from langchain_core.messages import HumanMessage, SystemMessage
 
 from .cdli_api import get_artifact, get_translation, advanced_search
@@ -118,7 +117,7 @@ async def discovery_node(state: PaperState) -> dict:
                     period=e.get("period") or "",
                     provenience=e.get("provenience") or "",
                 ))
-        except httpx.HTTPError:
+        except Exception:
             pass  # Network issues: skip this query set silently
 
     return {"found_artifacts": found, "errors": state.get("errors", [])}
