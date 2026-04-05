@@ -1,6 +1,20 @@
 node_modules/
 build/
 dist/
-.env
 .DS_Store
 *.log
+
+# Environment secrets (all levels)
+.env
+paper/.env
+
+# Python paper agent
+paper/.venv/
+paper/output/
+**/__pycache__/
+*.pyc
+*.pyo
+
+.codex
+
+assets/
